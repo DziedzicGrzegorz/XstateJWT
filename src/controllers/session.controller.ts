@@ -46,7 +46,7 @@ export function deleteSessionHandler(req: Request, res: Response) {
     setCookies(res, '', '', 0, 0);
 
 
-    // in require user middleware we check if req.user exists so we are confident that it exists here
+    // in requireUser middleware we check if req.user exists, so we are confident that it exists here
     if (req.user?.sessionId) {
         const session = invalidateSession(req.user.sessionId);
         res.send(session);

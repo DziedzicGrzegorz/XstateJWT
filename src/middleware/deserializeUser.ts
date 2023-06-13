@@ -1,4 +1,4 @@
-import {getSession} from '../db/allUser';
+import {getSession, sessions} from '../db/allUser';
 import {signJWT, verifyJWT} from '../utils/jwt.utils';
 import {assign, createMachine, interpret} from 'xstate';
 import {DecodedPayload, UserPayload, UserSession} from '../types/user';
@@ -13,12 +13,11 @@ interface UserContext {
     session: UserSession | null;
 }
 
-type UserEvent = { type: 'START' };
 
 export function deserializeUser(req: Request, res: Response, next: NextFunction) {
 
 
-    const userMachine = createMachine<UserContext, UserEvent>(
+    const userMachine = createMachine<UserContext>(
         {
             predictableActionArguments: true,
             id: 'user',
@@ -95,6 +94,8 @@ export function deserializeUser(req: Request, res: Response, next: NextFunction)
                 onStart: assign((ctx) => {
                     const {accessToken, refreshToken} = req.cookies;
 
+
+
                     return {
                         ...ctx,
                         accessToken,
@@ -107,10 +108,10 @@ export function deserializeUser(req: Request, res: Response, next: NextFunction)
 
                 onAccessTokenFound: assign((ctx) => {
                     const {payload, expired} = verifyJWT(ctx.accessToken!) as {
-                        payload: UserPayload;
+                        payload: UserPayload | null;
                         expired: boolean;
                     };
-                    if (payload) {
+                    if (payload) { // payload exist only if token not expired
                         return {
                             ...ctx,
                             payload,
@@ -122,9 +123,7 @@ export function deserializeUser(req: Request, res: Response, next: NextFunction)
 
                         };
                     } else {
-                        return {
-                            ...ctx,
-                        };
+                        return ctx;
                     }
                 }),
                 onPayloadFound: assign((ctx) => {
@@ -144,6 +143,9 @@ export function deserializeUser(req: Request, res: Response, next: NextFunction)
                     return {};
                 }),
                 onCheckSession: assign((ctx) => {
+                    // if(sessions['1']){ // to check path when sessions is invalid
+                    //     sessions['1'].valid = false;
+                    // }
                     const session = ctx.refresh?.sessionId ? getSession(ctx.refresh.sessionId) : undefined;
                     if (session) {
                         return {
@@ -151,9 +153,7 @@ export function deserializeUser(req: Request, res: Response, next: NextFunction)
                             session,
                         };
                     } else {
-                        return {
-                            ...ctx,
-                        };
+                        return ctx;
                     }
                 }),
                 onSessionFound: assign((ctx) => {
