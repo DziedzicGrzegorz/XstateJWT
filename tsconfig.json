@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "es2020",                   /* ustawia poziom języka, na którym ma być generowany kod */
+    "module": "NodeNext",              /* ustawia typ modułu, który ma być generowany */
+    "lib": [],                         /* lista bibliotek, na której będzie działał kod */
+    "allowJs": false,                  /* czy pozwala na importowanie plików JavaScript */
+    "checkJs": false,                  /* czy sprawdza pliki JavaScript podczas kompilacji */
+    "jsx": "preserve",                 /* ustawia typ składni dla plików JSX */
+    "declaration": true,              /* czy generuje pliki deklaracji dla plików .ts */
+    "sourceMap": false,                /* czy generuje mapy źródłowe dla plików .ts */
+    "outDir": "./dist",                /* katalog, w którym mają być zapisane wynikowe pliki */
+    "rootDir": "./src",                /* katalog, w którym znajdują się pliki źródłowe */
+    "removeComments": true,           /* czy usuwa komentarze z kodu wynikowego */
+    "strict": true,                   /* włącza lub wyłącza tryb ścisły */
+    "noImplicitAny": true,            /* czy wymaga jawnego określenia typu dla zmiennej typu any */
+    "strictNullChecks": true,         /* czy wymaga jawnego określenia typu dla wartości null lub undefined */
+    "noImplicitThis": false,           /* czy wymaga jawnego określenia typu dla this */
+    "alwaysStrict": true,             /* czy włącza tryb ścisły dla całego pliku */
+    "esModuleInterop": true,          /* czy umożliwia importowanie modułów commonjs w stylu ES6 */
+    "forceConsistentCasingInFileNames": false, /* czy wymaga spójności w nazwach plików */
+    "resolveJsonModule": false,
+    "emitDeclarationOnly": true,       /* czy generuje tylko pliki deklaracji */
+    "noEmitOnError": false,            /* czy nie generuje kodu wynikowego, gdy wystąpi błąd */
+    "declarationDir": "./declaration", /* katalog, w którym mają być zapisane pliki deklaracji */
+  },
+  "include": [
+    "src/**/*",
+    "C:/Webstorm _in_Process/school_management/src/types/express.d.ts"
+  ],
+  "exclude": [
+    "node_modules"                     /* wyklucza katalog node_modules z kompilacji */
+  ]
+
+}
